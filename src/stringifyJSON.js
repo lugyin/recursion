@@ -5,13 +5,17 @@
 
   var my_stringify = function(xx) {
 
+	if( xx === null) {
+		return '' + xx + '';
+	}
+
 	if(typeof xx === "number") {
-		return '"' + xx + '"';
+		return '' + xx + '';
 	} 
 
 
 	if(typeof xx === "boolean") {
-		return '"' + xx + '"';
+		return '' + xx + '';
 	} 
 
 	if(typeof xx === "string") {
@@ -21,7 +25,7 @@
 	if(Array.isArray(xx)) {
 		
 		if(xx.length === 0) {
-			return ' " [] " ';
+			return '[]';
 		} 
 
 		if( xx.length === 1) { 
@@ -40,24 +44,25 @@
 
 	if(typeof xx === "object") {
 	var keys = Object.keys(xx);
-	console.log(keys)	
+	//console.log(keys);
 		// for {}
 
 		if(keys.length === 0) {
-			return ' {} ';
+			return '{}';
 		}	
 		
 		if(keys.length === 1) {
 			for(var p in xx) {
-					return '{"' + p + '" : ' + my_stringify(xx[p]) + '}';
+					return '{"' + keys[0] + '" : ' + my_stringify(xx[keys[0]]) + '}';
 				}
 		}
 
 		if(keys.length > 1) {
-			var aa = "{" + [keys[0]] + ':' + my_stringify(xx[keys[0]])
-			for(var p in xx) {
-					aa '"' + p + '" : ' + my_stringify(xx[p]) + '}';
+			var aa = '{"' + keys[0] + '":' + my_stringify(xx[keys[0]])
+			for(var i = 1; i<keys.length; i++) {
+				aa = aa + ', "' + keys[i] + '" : ' + my_stringify(xx[keys[i]]);
 				}
+			return aa + '}';	
 		}	
 	} 
 
