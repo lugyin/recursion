@@ -4,7 +4,35 @@
 // };
 
 // But instead we're going to implement it from scratch:
-var getElementsByClassName = function(className
-){
-  // your code here
+var yolo = function(className){
+  
+ var ans = [];
+  
+ function callback (node) {	
+ 	var arr = [];
+ 	nodeHolder = node.className;
+ 	if(nodeHolder) {
+ 		arr = nodeHolder.split(' ');
+ 		for(var i = 0; i<arr.length; i++) {
+ 			if(arr[i] === className) {
+ 				ans.push(node);
+ 				break;
+ 			}
+ 		}
+ 	}
+ 	
+ }
+
+ function test(node, callback) {
+ 	callback(node);
+ 	node = node.firstChild;
+ 	while(node) {
+ 		test(node, callback);
+ 		node = node.nextSibling;
+ 	}
+ }
+
+ test(document.body, callback);
+ return ans;
+
 };
