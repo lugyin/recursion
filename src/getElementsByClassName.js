@@ -4,7 +4,7 @@
 // };
 
 // But instead we're going to implement it from scratch:
-var yolo = function(className){
+var getElementsByClassName = function(className){
   
  var ans = [];
   

@@ -9,6 +9,14 @@
 		return '' + xx + '';
 	}
 
+	if( xx === undefined) {
+		
+	} 
+
+	if(typeof xx === "function") {
+		
+	} 
+
 	if(typeof xx === "number") {
 		return '' + xx + '';
 	} 
@@ -53,19 +61,17 @@
 		
 		if(keys.length === 1) {
 			for(var p in xx) {
-					return '{"' + keys[0] + '" : ' + my_stringify(xx[keys[0]]) + '}';
+					return '{"' + keys[0] + '":' + my_stringify(xx[keys[0]]) + '}';
 				}
 		}
 
 		if(keys.length > 1) {
 			var aa = '{"' + keys[0] + '":' + my_stringify(xx[keys[0]])
 			for(var i = 1; i<keys.length; i++) {
-				aa = aa + ', "' + keys[i] + '" : ' + my_stringify(xx[keys[i]]);
+				aa = aa + ', "' + keys[i] + '":' + my_stringify(xx[keys[i]]);
 				}
 			return aa + '}';	
 		}	
 	} 
 
 };
-
-{"a":["b", "c"]},
