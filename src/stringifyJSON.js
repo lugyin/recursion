@@ -3,75 +3,53 @@
 
 // but you don't so you're going to write it from scratch:
 
-  var my_stringify = function(xx) {
-
-	if( xx === null) {
-		return '' + xx + '';
-	}
-
-	if( xx === undefined) {
-		
-	} 
-
-	if(typeof xx === "function") {
-		
-	} 
-
-	if(typeof xx === "number") {
-		return '' + xx + '';
-	} 
 
 
-	if(typeof xx === "boolean") {
-		return '' + xx + '';
-	} 
+var stringifyJSON = function (obj) {
+  var handle = function(item) {
+    if (typeof item === 'string') {
+      result += '"' + item.toString() + '"';
+    }
+    else if (typeof item === 'boolean' || typeof item === 'number') {
+      result += item.toString();
+    }
+    else if (item === null) {
+      result += 'null';
+    }
+    else if (item === undefined) {
+      result += 'undefined';
+    }
+    // handle arrays recursively
+    else if (Array.isArray(item)) {
+      result += '[';
+      for (var i = 0; i < item.length; i++) {
+        handle(item[i]);
+        if (i !== item.length - 1) {
+          result += ',';
+        }
+      }
+      result += ']';
+    }
 
-	if(typeof xx === "string") {
-		return '"' + xx + '"';
-	} 
+    else if (typeof item === 'object') {
+      result += '{';
+      var count = 0;
+      var length = Object.keys(item).length;
+      for (var prop in item) {
+        count++;
+        if (typeof prop !== 'function' && typeof item[prop] !== 'function' && item[prop] !== undefined) {
+          result += '"' + prop.toString() + '":';
+          handle(item[prop]);
+          if (count !== length) {
+            result += ',';
+          }
+        }
+      }
+      result += '}';
+    }
+  };
 
-	if(Array.isArray(xx)) {
-		
-		if(xx.length === 0) {
-			return '[]';
-		} 
-
-		if( xx.length === 1) { 
-		return '[' + my_stringify(xx[0]) + ']';
-		} 
-
-		if(xx.length > 1) { 
-			var aa = '[' + my_stringify(xx[0]);
-			for(var i = 1; i<xx.length; i++) {
-			aa = aa + ", " + my_stringify(xx[i]);
-			}
-			return aa + ']';
-		}	
-		
-	} 
-
-	if(typeof xx === "object") {
-	var keys = Object.keys(xx);
-	//console.log(keys);
-		// for {}
-
-		if(keys.length === 0) {
-			return '{}';
-		}	
-		
-		if(keys.length === 1) {
-			for(var p in xx) {
-					return '{"' + keys[0] + '":' + my_stringify(xx[keys[0]]) + '}';
-				}
-		}
-
-		if(keys.length > 1) {
-			var aa = '{"' + keys[0] + '":' + my_stringify(xx[keys[0]])
-			for(var i = 1; i<keys.length; i++) {
-				aa = aa + ', "' + keys[i] + '":' + my_stringify(xx[keys[i]]);
-				}
-			return aa + '}';	
-		}	
-	} 
-
+  var result = '';
+  handle(obj);
+  return result;
 };
